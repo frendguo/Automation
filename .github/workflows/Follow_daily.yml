@@ -25,11 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install axios
 
-      # 设置环境变量，你可以在 GitHub Secrets 中配置这些变量
-      - name: Set environment variables
-        env:
-          FOLLOW_ACCOUNT_0: ${{ secrets.FOLLOW_ACCOUNT_0 }}
-
       # 执行签到脚本
       - name: Run CheckIn
         run: node Follow_Checkin.js
+        env:
+          FOLLOW_ACCOUNT_0: ${{ secrets.FOLLOW_ACCOUNT_0 }}
