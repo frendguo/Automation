@@ -19,7 +19,7 @@ Some automation scripts that are executed via Github Action.
 
 输入值: 抓取csrf请求头中的整个Cookie 例
 
-```
+```js
 // 就是很长不要怀疑
 authjs.csrf-token=xxxxxx; authjs.callback-url=xxxxxx; authjs.session-token=xxxxxxx; ph_phc_EZGExxxxxxxxwEWNL_posthog=xxxxx
 ```
