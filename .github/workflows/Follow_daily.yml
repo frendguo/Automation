@@ -1,0 +1,35 @@
+name: Follow Daily Action
+
+# 定义何时触发该 Action
+on:
+  schedule:
+    - cron: '5 10 * * *'  # 每天 UTC 时间 00:00 执行
+  workflow_dispatch:  # 支持手动触发
+
+# 运行的环境
+jobs:
+  sign_in:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # 根据你的项目需求选择版本
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm install axios
+
+      # 设置环境变量，你可以在 GitHub Secrets 中配置这些变量
+      - name: Set environment variables
+        env:
+          FOLLOW_ACCOUNT_0: ${{ secrets.FOLLOW_ACCOUNT_0 }}
+
+      # 执行签到脚本
+      - name: Run CheckIn
+        run: node Follow_Checkin.js
