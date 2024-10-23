@@ -8,7 +8,7 @@ on:
 
 # 运行的环境
 jobs:
-  sign_in:
+  check_in:
     runs-on: ubuntu-latest
 
     steps:
