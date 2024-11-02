@@ -30,3 +30,4 @@ jobs:
         run: node Follow_Checkin.js
         env:
           FOLLOW_ACCOUNT_0: ${{ secrets.FOLLOW_ACCOUNT_0 }}
+          FOLLOW_ACCOUNT_1: ${{ secrets.FOLLOW_ACCOUNT_1 }}
