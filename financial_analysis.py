@@ -127,33 +127,30 @@ def main():
         # 宏观经济指标
         print("Fetching GDP data...")
         macro_china_gdp_yearly_df = ak.macro_china_gdp_yearly()
-        gdp = macro_china_gdp_yearly_df.iloc[-1]['指标'] + ": " + str(macro_china_gdp_yearly_df.iloc[-1]['数据']) if not macro_china_gdp_yearly_df.empty else "N/A"
-
+        gdp = macro_china_gdp_yearly_df.iloc[-1]['前值']
 
         print("Fetching PMI data...")
         index_pmi_com_cx_df = ak.index_pmi_com_cx()
-        pmi = index_pmi_com_cx_df.iloc[-1].to_string() if not index_pmi_com_cx_df.empty else "N/A"
+        pmi = index_pmi_com_cx_df.iloc[-1]
 
         print("Fetching CPI data...")
         macro_china_cpi_monthly_df = ak.macro_china_cpi_monthly()
-        cpi = macro_china_cpi_monthly_df.iloc[-1].to_string() if not macro_china_cpi_monthly_df.empty else "N/A"
-
+        cpi = macro_china_cpi_monthly_df.iloc[-1]['前值']
 
         print("Fetching FX data...")
         fx_spot_quote_df = ak.fx_spot_quote()
-        huilv = fx_spot_quote_df[fx_spot_quote_df['品种'] == '美元人民币'].to_string() if not fx_spot_quote_df.empty else "N/A"
-
+        huilv = fx_spot_quote_df.iloc[0]
 
         print("Fetching Fed data...")
         macro_bank_usa_interest_rate_df = ak.macro_bank_usa_interest_rate()
-        meilianch = macro_bank_usa_interest_rate_df.iloc[-1].to_string() if not macro_bank_usa_interest_rate_df.empty else "N/A"
+        meilianch = macro_bank_usa_interest_rate_df.iloc[-1]
 
 
         # 市场指标
         print("Fetching LHB data...")
         # 注意：LHB 数据可能只在交易日才有，非交易日可能为空或报错
         try:
-            lhb = ak.stock_lhb_detail_em(start_date=end_date_str, end_date=end_date_str)
+            lhb = ak.stock_lhb_detail_em(start_date=current_date, end_date=end_date_str)
             lhb_str = lhb.to_string() if not lhb.empty else "当日无龙虎榜数据"
         except Exception as e:
             lhb_str = f"获取龙虎榜数据失败: {e}"
@@ -161,30 +158,24 @@ def main():
 
         print("Fetching board data...")
         board = ak.stock_board_concept_name_em()
-        board_str = board['板块名称'].to_list()[:20] # 只取前20个概念示例
-        board_str = ", ".join(board_str) if board_str else "N/A"
 
         print("Fetching market activity data...")
         market = ak.stock_market_activity_legu()
-        market_str = market.to_string() if not market.empty else "N/A"
 
         # 技术面分析
         print("Fetching index history...")
         # 获取上证指数最近3个交易日的数据
-        index_zh_a_hist_df = ak.index_zh_a_hist(symbol="000001", period="daily", start_date=start_date_str, end_date=end_date_str)
-        index_hist_str = index_zh_a_hist_df.to_string() if not index_zh_a_hist_df.empty else "获取指数历史数据失败"
-
+        index_zh_a_hist_df = ak.index_zh_a_hist(symbol="000001", period="daily", start_date=three_days_ago, end_date=current_date)
+        
         print("Fetching fund flow data...")
         # 概念资金流向
         fund_flow = ak.stock_fund_flow_concept(symbol="即时")
-        fund_flow_str = fund_flow.head(10).to_string() if not fund_flow.empty else "获取资金流数据失败" # 取前10条示例
-
 
         print("--- Data Fetching Complete ---")
         print("Starting AI analysis...")
 
         # --- 进行分析 ---
-        result = analysis(gdp, pmi, cpi, huilv, meilianch, lhb_str, board_str, market_str, index_hist_str, fund_flow_str)
+        result = analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_hist, fund_flow)
         print("--- AI Analysis Complete ---")
         print(result)
 
