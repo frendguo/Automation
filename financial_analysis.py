@@ -98,10 +98,8 @@ def analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_zh_a_his
 {fund_flow} 是概念板块资金流向(即时)
 
         """
-        # 注意：根据你的 Gemini key 和 base_url，确认模型名称是否正确
-        # "gemini-2.5-pro-exp-03-25" 可能是实验性模型，考虑使用稳定版本如 "gemini-pro"
         response = client.chat.completions.create(
-            model="gemini-pro", # 或者你确认有效的模型
+            model="gemini-2.5-pro-exp-03-25", # 或者你确认有效的模型
             messages=[{"role": "user", "content": prompt}]
         )
         # 获取分析结果
