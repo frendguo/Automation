@@ -172,7 +172,7 @@ def main():
         print("Starting AI analysis...")
 
         # --- 进行分析 ---
-        result = analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_hist, fund_flow)
+        result = analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_zh_a_hist_df, fund_flow)
         print("--- AI Analysis Complete ---")
         print(result)
 
