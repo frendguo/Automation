@@ -113,14 +113,11 @@ def analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_zh_a_his
 
 def main():
     current_date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
-    # Akshare 获取数据时，end_date 通常包含当天，start_date 通常也包含当天
-    # 如果希望获取最近3天的数据，可能需要调整日期逻辑
-    # 例如，获取 T-2, T-1, T 的数据
-    start_date_dt = datetime.now() - timedelta(days=2)
-    start_date_str = start_date_dt.strftime('%Y%m%d')
+    three_days_ago = (datetime.now() - timedelta(days=3)).strftime('%Y%m%d')
+
     end_date_str = current_date # 当天
 
-    print(f"Fetching data from {start_date_str} to {end_date_str}")
+    print(f"Fetching data from {three_days_ago} to {end_date_str}")
 
     try:
         # --- 获取数据 ---
@@ -165,7 +162,7 @@ def main():
         # 技术面分析
         print("Fetching index history...")
         # 获取上证指数最近3个交易日的数据
-        index_zh_a_hist_df = ak.index_zh_a_hist(symbol="000001", period="daily", start_date=three_days_ago, end_date=current_date)
+        index_zh_a_hist_df = ak.index_zh_a_hist(symbol="000001", period="daily", start_date=three_days_ago, end_date=end_date_str)
         
         print("Fetching fund flow data...")
         # 概念资金流向
