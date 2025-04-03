@@ -1,33 +1,35 @@
-name: Follow Daily Action
+name: Daily Financial Analysis # Workflow 的名称
 
-# 定义何时触发该 Action
 on:
+  workflow_dispatch: # 允许手动触发
   schedule:
-    - cron: '30 1 * * *'  # 每天 北京时间 9：30 AM 执行
-  workflow_dispatch:  # 支持手动触发
+    # 在每天的特定时间运行 (UTC 时间)
+    # 例如：每天 23:00 UTC 运行 (对应北京时间早上 7:00)
+    # 使用 crontab 格式: 分 时 日 月 周
+    # 更多信息: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07
+    - cron: '0 17 * * *'
 
-# 运行的环境
 jobs:
-  check_in:
-    runs-on: ubuntu-latest
-
+  run-analysis:
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 运行环境
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout repository # 第一步：检出你的代码
+        uses: actions/checkout@v4 # 使用官方的 checkout action
 
-      # 设置 Node.js 环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python # 第二步：设置 Python 环境
+        uses: actions/setup-python@v5
         with:
-          node-version: '16'  # 根据你的项目需求选择版本
+          python-version: '3.10' # 指定你希望使用的 Python 版本
 
-      # 安装依赖
-      - name: Install dependencies
-        run: npm install axios
+      - name: Install dependencies # 第三步：安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else echo "requirements.txt not found."; exit 1; fi
 
-      # 执行签到脚本
-      - name: Run CheckIn
-        run: node Follow_Checkin.js
-        env:
-          FOLLOW_ACCOUNT_0: ${{ secrets.FOLLOW_ACCOUNT_0 }}
-          FOLLOW_ACCOUNT_1: ${{ secrets.FOLLOW_ACCOUNT_1 }}
+      - name: Run Python script # 第四步：运行你的脚本
+        env: # 设置环境变量，从 GitHub Secrets 读取值
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python financial_analysis.py # 运行你的 Python 文件 (确保文件名匹配)
