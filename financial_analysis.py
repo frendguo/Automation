@@ -112,7 +112,7 @@ def analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_zh_a_his
         return f"AI 分析生成失败: {str(e)}"
 
 def main():
-    current_date = datetime.now().strftime('%Y%m%d')
+    current_date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
     # Akshare 获取数据时，end_date 通常包含当天，start_date 通常也包含当天
     # 如果希望获取最近3天的数据，可能需要调整日期逻辑
     # 例如，获取 T-2, T-1, T 的数据
