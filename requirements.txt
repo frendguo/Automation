@@ -1,0 +1,5 @@
+akshare
+openai
+# requests # akshare 可能隐式依赖，如果遇到问题可以加上
+# pandas # akshare 依赖
+# numpy # akshare 依赖
