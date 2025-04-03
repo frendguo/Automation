@@ -110,7 +110,7 @@ def analysis(gdp, pmi, cpi, huilv, meilianch, lhb, board, market, index_zh_a_his
         return f"AI 分析生成失败: {str(e)}"
 
 def main():
-    current_date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
+    current_date = datetime.now().strftime('%Y%m%d')
     three_days_ago = (datetime.now() - timedelta(days=3)).strftime('%Y%m%d')
 
     end_date_str = current_date # 当天
