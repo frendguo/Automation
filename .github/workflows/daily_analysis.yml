@@ -2,12 +2,7 @@ name: Daily Financial Analysis # Workflow 的名称
 
 on:
   workflow_dispatch: # 允许手动触发
-  schedule:
-    # 在每天的特定时间运行 (UTC 时间)
-    # 例如：每天 9:00 UTC 运行 (对应北京时间 17:00)
-    # 使用 crontab 格式: 分 时 日 月 周
-    # 更多信息: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07
-    - cron: '0 9 * * 1-5'
+  
 
 jobs:
   run-analysis:
